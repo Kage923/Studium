@@ -7,6 +7,7 @@ import { FlashcardsPage } from './pages/FlashcardsPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { useAuth } from './auth/AuthContext'
 import { AuthDialog } from './auth/AuthDialog'
+import { WelcomePage } from './pages/WelcomePage'
 
 const tabs: { key: TabKey; label: string; icon: string }[] = [
   { key: 'tutor', label: 'Tutor', icon: '🧠' },
@@ -191,24 +192,28 @@ function App() {
         </div>
       </header>
 
-      <main className="app-main">{renderActivePage()}</main>
+      <main className="app-main">
+        {user ? renderActivePage() : <WelcomePage onOpenAuth={() => setAuthOpen(true)} />}
+      </main>
 
-      <nav className="bottom-nav" aria-label="Studium main navigation">
-        {tabs.map((tab) => {
-          const isActive = tab.key === activeTab
-          return (
-            <button
-              key={tab.key}
-              type="button"
-              className={`bottom-nav-item ${isActive ? 'bottom-nav-item-active' : ''}`}
-              onClick={() => setActiveTab(tab.key)}
-            >
-              <span aria-hidden="true">{tab.icon}</span>
-              <div>{tab.label}</div>
-            </button>
-          )
-        })}
-      </nav>
+      {user && (
+        <nav className="bottom-nav" aria-label="Studium main navigation">
+          {tabs.map((tab) => {
+            const isActive = tab.key === activeTab
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                className={`bottom-nav-item ${isActive ? 'bottom-nav-item-active' : ''}`}
+                onClick={() => setActiveTab(tab.key)}
+              >
+                <span aria-hidden="true">{tab.icon}</span>
+                <div>{tab.label}</div>
+              </button>
+            )
+          })}
+        </nav>
+      )}
       <AuthDialog open={authOpen} onClose={() => setAuthOpen(false)} />
     </div>
   )

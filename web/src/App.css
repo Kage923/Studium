@@ -98,6 +98,66 @@
   font-size: 0.85rem;
 }
 
+/* Welcome (signed-out) view */
+.welcome-page {
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.welcome-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.welcome-title {
+  font-size: 1.6rem;
+  margin: 0;
+  color: var(--studium-text-primary);
+}
+
+.welcome-subtitle {
+  font-size: 0.95rem;
+  color: var(--studium-text-secondary);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.welcome-features {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--studium-text-secondary);
+}
+
+.welcome-features li {
+  padding: 0.35rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.welcome-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--studium-teal);
+  font-weight: 700;
+}
+
+.welcome-cta {
+  margin-top: 0.5rem;
+}
+
+.welcome-hint {
+  font-size: 0.8rem;
+  color: var(--studium-medium-gray);
+  margin: 0;
+}
+
 .bottom-nav {
   position: fixed;
   left: 50%;
