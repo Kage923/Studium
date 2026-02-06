@@ -96,9 +96,7 @@ export function AuthDialog({ open, onClose }: AuthDialogProps) {
       >
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            position: 'relative',
             marginBottom: '0.6rem',
           }}
         >
@@ -110,14 +108,25 @@ export function AuthDialog({ open, onClose }: AuthDialogProps) {
             type="button"
             onClick={onClose}
             style={{
+              position: 'absolute',
+              top: '-0.4rem',
+              right: '-0.4rem',
               borderRadius: '999px',
               border: '1px solid rgba(255,255,255,0.2)',
-              padding: '0.1rem 0.55rem',
+              padding: '0',
+              width: '28px',
+              height: '28px',
               backgroundColor: 'rgba(0,0,0,0.7)',
-              fontSize: '0.75rem',
+              fontSize: '1.2rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: 'var(--studium-text-secondary)',
             }}
+            aria-label="Close dialog"
           >
-            Close
+            ×
           </button>
         </div>
 

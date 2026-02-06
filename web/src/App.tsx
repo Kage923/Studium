@@ -171,7 +171,9 @@ function App() {
     <div className="app-shell">
       <header className="app-header">
         <div className="app-header-left">
-          <div className="app-logo">S</div>
+          <div className="app-logo">
+            <img src="/studium-brain.svg" alt="Studium logo" className="app-logo-img" />
+          </div>
           <div className="app-title">
             <span className="app-title-main">Studium</span>
             <span className="app-title-tagline">Learn your way.</span>
