@@ -1,0 +1,162 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 5rem;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.app-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 0% 0%, #ffffff 0, rgba(255, 255, 255, 0) 45%),
+    linear-gradient(135deg, var(--studium-electric-blue), var(--studium-violet));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--studium-white);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.app-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-title-main {
+  font-size: 1.35rem;
+}
+
+.app-title-tagline {
+  font-size: 0.8rem;
+  color: var(--studium-text-secondary);
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.app-header-chip {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(41, 121, 255, 0.4);
+  font-size: 0.7rem;
+  color: var(--studium-medium-gray);
+}
+
+.app-main {
+  flex: 1;
+}
+
+.page-card {
+  background: rgba(18, 18, 18, 0.9);
+  border-radius: 1.25rem;
+  padding: 1.5rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(18px);
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.page-header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.page-title {
+  font-size: 1.25rem;
+}
+
+.page-subtitle {
+  font-size: 0.85rem;
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 1.4rem;
+  transform: translateX(-50%);
+  width: min(480px, 100% - 2.4rem);
+  background: rgba(18, 18, 18, 0.94);
+  border-radius: 999px;
+  padding: 0.35rem 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(41, 121, 255, 0.12);
+  backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: space-between;
+  gap: 0.2rem;
+  z-index: 20;
+}
+
+.bottom-nav-item {
+  flex: 1;
+  border-radius: 999px;
+  padding: 0.45rem 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+  color: var(--studium-text-secondary);
+  border: none;
+  background: transparent;
+  transition:
+    background 0.15s ease-out,
+    color 0.15s ease-out,
+    transform 0.1s ease-out;
+}
+
+.bottom-nav-item span {
+  font-size: 1rem;
+}
+
+.bottom-nav-item-active {
+  background: radial-gradient(circle at top, rgba(57, 255, 20, 0.32), transparent 70%),
+    linear-gradient(135deg, rgba(41, 121, 255, 0.96), rgba(142, 45, 226, 0.96));
+  color: var(--studium-white);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.8);
+}
+
+.bottom-nav-item-active span {
+  transform: translateY(-1px);
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    padding-inline: 2rem;
+  }
+
+  .page-card {
+    padding: 1.75rem 1.6rem;
+  }
+}
