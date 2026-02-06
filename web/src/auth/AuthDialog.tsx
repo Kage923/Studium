@@ -9,7 +9,7 @@ export type AuthDialogProps = {
 }
 
 export function AuthDialog({ open, onClose }: AuthDialogProps) {
-  const { signIn, signUp, loading, user, signOut } = useAuth()
+  const { signIn, signUp, user, signOut } = useAuth()
   const [mode, setMode] = useState<Mode>('sign_in')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
