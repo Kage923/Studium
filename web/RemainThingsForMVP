@@ -1,0 +1,53 @@
+1) Auth & user identity (email/password only)
+Set up Firebase project (Auth + Firestore or RTDB).
+Add Firebase config to the web app using .env and a firebaseClient.ts.
+Create auth UI: sign up, sign in, sign out (modal or auth page).
+Wrap app in AuthProvider and make Tutor/Plan/Flashcards/Profile read the current user.
+Guard data so only logged‑in users can see/manipulate their own stuff.
+2) Data models & persistence
+Define schemas (even if informal) for:
+Users, tutor sessions, messages.
+Daily plans/tasks.
+Decks/flashcards, quizzes.
+Wire Plan tab to Firestore: CRUD for today’s plan & tasks.
+Wire Flashcards tab to Firestore: CRUD for decks and cards.
+Persist chat sessions/messages for Tutor instead of keeping them only in React state.
+3) AI integration (Theodore + generation)
+Choose AI provider (OpenAI / Claude / Gemini) and add server‑side client (Node/Cloud Function/etc.).
+Design prompts for Theodore that enforce your tone: supportive, clear, slightly formal, no slang/shaming.
+Create Tutor API endpoint (/api/tutor/message) that:
+Takes user message + context.
+Calls LLM.
+Returns Theodore’s reply and stores it.
+Replace dummy tutor reply in the frontend with the real API call.
+Create Plan generation endpoint (/api/plan/generateToday):
+Uses stored goals/deadlines + past behavior.
+Returns a task list.
+Create Flashcard/quiz generation endpoint (/api/flashcards/generateFromNotes):
+Takes pasted notes.
+Returns structured cards (and optionally quiz questions).
+Hook Plan tab “Generate today’s plan” to that endpoint.
+Hook Flashcards “Create from notes” to that endpoint.
+4) Quick quizzes & exam‑style practice
+Extend Flashcards model to include quizzes or link quizzes to decks.
+Add Quiz UI (could be a sub‑view of Flashcards):
+Question, answer input/options, feedback, next/previous, final summary.
+Generate questions (using existing cards or AI endpoint) and store quiz attempts per user.
+Summaries in Profile: show basic quiz stats (attempts, accuracy).
+5) Onboarding & goals
+Add simple onboarding flow on first login:
+Main subject/goal.
+Key exam or deadline dates.
+Store onboarding data with the user profile in Firestore.
+Feed that data into AI prompts for Tutor and Plan generation.
+6) Brand & UX polish for MVP
+Load Montserrat / Inter / Nunito properly (e.g., Google Fonts, @font-face).
+Extract inline styles into CSS classes to keep JSX clean and make future theme tweaks easy.
+Mobile responsiveness pass (especially for chat, plan list, flashcards layout).
+Add a minimal landing/welcome state for new users explaining Theodore + main tabs.
+7) Deployment & ops
+Set up build & deploy pipeline:
+Frontend to Vercel/Netlify.
+Backend to Vercel functions / Firebase Functions / Render, etc.
+Configure production env vars (Firebase keys, AI keys).
+Add minimal error handling & logging on the backend for failed LLM/Firebase calls.
