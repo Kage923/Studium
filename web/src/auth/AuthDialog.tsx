@@ -30,10 +30,16 @@ export function AuthDialog({ open, onClose }: AuthDialogProps) {
       }
       onClose()
     } catch (err) {
-      const message =
-        (err && typeof err === 'object' && 'message' in err && String((err as any).message)) ||
-        'Unable to authenticate. Please check your details and try again.'
-      setError(message)
+      // Deliberately show a clear, user‑friendly message instead of the raw Firebase error
+      if (mode === 'sign_in') {
+        setError(
+          'Sign in failed. Please check your email and password, or create a new account if you are new to Studium.',
+        )
+      } else {
+        setError(
+          'We could not create your account. Please use a valid email and a password with at least 6 characters, then try again.',
+        )
+      }
     } finally {
       setSubmitting(false)
     }
@@ -147,7 +153,12 @@ export function AuthDialog({ open, onClose }: AuthDialogProps) {
             >
               <button
                 type="button"
-                onClick={() => setMode('sign_in')}
+                onClick={() => {
+                  setMode('sign_in')
+                  setEmail('')
+                  setPassword('')
+                  setError(null)
+                }}
                 style={{
                   flex: 1,
                   padding: '0.25rem 0.7rem',
@@ -164,7 +175,12 @@ export function AuthDialog({ open, onClose }: AuthDialogProps) {
               </button>
               <button
                 type="button"
-                onClick={() => setMode('sign_up')}
+                onClick={() => {
+                  setMode('sign_up')
+                  setEmail('')
+                  setPassword('')
+                  setError(null)
+                }}
                 style={{
                   flex: 1,
                   padding: '0.25rem 0.7rem',

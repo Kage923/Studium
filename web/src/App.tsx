@@ -180,7 +180,11 @@ function App() {
         <div className="app-header-right">
           <div className="app-header-chip">MVP · Phase 1</div>
           <button type="button" onClick={() => setAuthOpen(true)}>
-            {user ? 'Account' : 'Sign in'}
+            {user
+              ? (user.email ?? '')
+                  .split('@')[0]
+                  .slice(0, 18) || 'Account'
+              : 'Sign in'}
           </button>
         </div>
       </header>
