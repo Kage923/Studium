@@ -65,13 +65,7 @@ export function FlashcardsPage({ decks, onCreateDeck, onAddCard }: FlashcardsPag
         </button>
       </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1.6fr)',
-          gap: '1rem',
-        }}
-      >
+      <div className="flashcards-grid">
         <div
           style={{
             display: 'flex',
