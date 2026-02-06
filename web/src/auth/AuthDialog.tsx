@@ -11,10 +11,15 @@ export type AuthDialogProps = {
 export function AuthDialog({ open, onClose }: AuthDialogProps) {
   const { signIn, signUp, user, signOut } = useAuth()
   const [mode, setMode] = useState<Mode>('sign_in')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState<string | null>(null)
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [errorValue, setErrorValue] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+
+  const error = errorValue
+  const setError = (value: string | null) => {
+    setErrorValue(value)
+  }
 
   if (!open) return null
 
@@ -52,10 +57,7 @@ export function AuthDialog({ open, onClose }: AuthDialogProps) {
       await signOut()
       onClose()
     } catch (err) {
-      const message =
-        (err && typeof err === 'object' && 'message' in err && String((err as any).message)) ||
-        'Unable to sign out. Please try again.'
-      setError(message)
+      setError('Unable to sign out. Please try again.')
     } finally {
       setSubmitting(false)
     }
