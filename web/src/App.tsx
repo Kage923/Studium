@@ -5,6 +5,8 @@ import { TutorPage } from './pages/TutorPage'
 import { PlanPage } from './pages/PlanPage'
 import { FlashcardsPage } from './pages/FlashcardsPage'
 import { ProfilePage } from './pages/ProfilePage'
+import { useAuth } from './auth/AuthContext'
+import { AuthDialog } from './auth/AuthDialog'
 
 const tabs: { key: TabKey; label: string; icon: string }[] = [
   { key: 'tutor', label: 'Tutor', icon: '🧠' },
@@ -14,7 +16,9 @@ const tabs: { key: TabKey; label: string; icon: string }[] = [
 ]
 
 function App() {
+  const { user } = useAuth()
   const [activeTab, setActiveTab] = useState<TabKey>('tutor')
+  const [authOpen, setAuthOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
       id: createId(),
@@ -175,7 +179,9 @@ function App() {
         </div>
         <div className="app-header-right">
           <div className="app-header-chip">MVP · Phase 1</div>
-          <button type="button">Sign in</button>
+          <button type="button" onClick={() => setAuthOpen(true)}>
+            {user ? 'Account' : 'Sign in'}
+          </button>
         </div>
       </header>
 
@@ -197,6 +203,7 @@ function App() {
           )
         })}
       </nav>
+      <AuthDialog open={authOpen} onClose={() => setAuthOpen(false)} />
     </div>
   )
 }
