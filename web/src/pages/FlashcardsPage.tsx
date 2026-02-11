@@ -3,8 +3,8 @@ import type { Deck, Flashcard } from '../types'
 
 export type FlashcardsPageProps = {
   decks: Deck[]
-  onCreateDeck: (name: string) => void
-  onAddCard: (deckId: string, front: string, back: string) => void
+  onCreateDeck: (name: string) => void | Promise<string | void>
+  onAddCard: (deckId: string, front: string, back: string) => void | Promise<void>
 }
 
 export function FlashcardsPage({ decks, onCreateDeck, onAddCard }: FlashcardsPageProps) {
@@ -14,11 +14,14 @@ export function FlashcardsPage({ decks, onCreateDeck, onAddCard }: FlashcardsPag
   const [back, setBack] = useState('')
   const [notes, setNotes] = useState('')
 
-  const handleCreateDeck = () => {
+  const handleCreateDeck = async () => {
     const trimmed = deckName.trim()
     if (!trimmed) return
-    onCreateDeck(trimmed)
     setDeckName('')
+    const id = await Promise.resolve(onCreateDeck(trimmed)).then((r) =>
+      typeof r === 'string' ? r : null
+    )
+    if (id) setSelectedDeckId(id)
   }
 
   const handleAddCard = () => {

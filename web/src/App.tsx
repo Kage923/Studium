@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import './App.css'
-import { createId, type ChatMessage, type Deck, type PlanTask, type TabKey } from './types'
+import { createId, type ChatMessage, type PlanTask, type PlanTaskStatus, type TabKey } from './types'
 import { TutorPage } from './pages/TutorPage'
 import { PlanPage } from './pages/PlanPage'
 import { FlashcardsPage } from './pages/FlashcardsPage'
@@ -8,6 +8,9 @@ import { ProfilePage } from './pages/ProfilePage'
 import { useAuth } from './auth/AuthContext'
 import { AuthDialog } from './auth/AuthDialog'
 import { WelcomePage } from './pages/WelcomePage'
+import { useTutorMessages } from './hooks/useTutorMessages'
+import { usePlanTasks } from './hooks/usePlanTasks'
+import { useDecks } from './hooks/useDecks'
 
 const tabs: { key: TabKey; label: string; icon: string }[] = [
   { key: 'tutor', label: 'Tutor', icon: '🧠' },
@@ -18,28 +21,24 @@ const tabs: { key: TabKey; label: string; icon: string }[] = [
 
 function App() {
   const { user } = useAuth()
+  const userId = user?.uid ?? null
   const [activeTab, setActiveTab] = useState<TabKey>('tutor')
   const [authOpen, setAuthOpen] = useState(false)
-  const [messages, setMessages] = useState<ChatMessage[]>(() => [
-    {
-      id: createId(),
-      author: 'theodore',
-      text: `Welcome back. Let’s make this session focused and productive. What are you studying today, and what would you like to achieve by the end of this block?`,
-      createdAt: new Date().toISOString(),
-    },
-  ])
-  const [tasks, setTasks] = useState<PlanTask[]>([])
-  const [decks, setDecks] = useState<Deck[]>([])
+
+  const { messages, setMessages } = useTutorMessages(userId)
+  const { tasks, setTasks } = usePlanTasks(userId)
+  const { decks, createDeck, addCard } = useDecks(userId)
 
   const handleNewTutorSession = () => {
-    setMessages([
+    const next: ChatMessage[] = [
       {
         id: createId(),
         author: 'theodore',
         text: `New session started. Briefly tell me your goal for this study block, and I’ll help you structure it.`,
         createdAt: new Date().toISOString(),
       },
-    ])
+    ]
+    setMessages(next)
   }
 
   const handleSendTutorMessage = (text: string) => {
@@ -65,7 +64,7 @@ function App() {
       createdAt: now,
     }
 
-    setMessages((prev) => [...prev, userMessage, theoMessage])
+    setMessages([...messages, userMessage, theoMessage])
   }
 
   const handleGenerateTodayPlan = () => {
@@ -93,31 +92,26 @@ function App() {
   }
 
   const handleToggleTaskStatus = (id: string) => {
-    setTasks((prev) =>
-      prev.map((task) => {
-        if (task.id !== id) return task
-        if (task.status === 'pending') return { ...task, status: 'in_progress' }
-        if (task.status === 'in_progress') return { ...task, status: 'done' }
-        return { ...task, status: 'pending' }
-      }),
-    )
+    const next = tasks.map((task): PlanTask => {
+      if (task.id !== id) return task
+      let status: PlanTaskStatus = 'pending'
+      if (task.status === 'pending') status = 'in_progress'
+      else if (task.status === 'in_progress') status = 'done'
+      return { ...task, status }
+    })
+    setTasks(next)
   }
 
-  const handleCreateDeck = (name: string) => {
-    setDecks((prev) => [...prev, { id: createId(), name, cards: [] }])
+  const handleCreateDeck = async (name: string): Promise<string> => {
+    return createDeck(name)
   }
 
-  const handleAddCard = (deckId: string, front: string, back: string) => {
-    setDecks((prev) =>
-      prev.map((deck) =>
-        deck.id === deckId
-          ? {
-              ...deck,
-              cards: [...deck.cards, { id: createId(), front, back }],
-            }
-          : deck,
-      ),
-    )
+  const handleAddCard = async (
+    deckId: string,
+    front: string,
+    back: string
+  ): Promise<void> => {
+    await addCard(deckId, front, back)
   }
 
   const progress = useMemo(() => {
